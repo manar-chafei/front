@@ -1,0 +1,244 @@
+/* General */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Admin Dashboard */
+.admin-dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #0000004e;
+  color: #ff2f00;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 0;
+  backdrop-filter: blur(10px);
+}
+
+.logo-container {
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 10px;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.menu-item i {
+  margin-right: 10px;
+}
+
+.menu-item:hover,
+.menu-item.active {
+  background-color: #6d6d6d28;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.logout {
+  margin-top: auto;
+  background-color: #fd2c02;
+}
+
+.logout:hover {
+  background-color: #ffffff;
+  color: #fd2c02;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 30px;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.dashboard-header p {
+  font-size: 18px;
+  color: #fd2c02;
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: #0000004e;
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgb(0, 0, 0);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.245);
+}
+
+.card-icon {
+  font-size: 36px;
+  color: #0c00ef;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: rgb(244, 203, 128);
+}
+
+.card p {
+  color: #cccccc;
+}
+
+/* Add Test Page Styles */
+.add-test-form {
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.submit-button {
+  background-color: #ff2a00cb;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #fd2c02;
+}
+
+.questions-container {
+  margin-top: 20px;
+}
+
+.question-block {
+  background: #f9f9f9;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.propositions-container {
+  margin-top: 10px;
+}
+
+.proposition-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.error-message {
+  color: #ffffff;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100px;
+  }
+
+  .menu-item {
+    font-size: 14px;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 28px;
+  }
+
+  .dashboard-header p {
+    font-size: 16px;
+  }
+}
+.questions-container {
+  color: #1f1f1f;
+  margin-top: 20px;
+  max-height: 400px; /* Set the maximum height for the container */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 10px; /* Prevent content from being hidden by the scrollbar */
+  border: 1px solid #ddd; /* Optional: Add a border for better visibility */
+  border-radius: 5px; /* Optional: Rounded corners */
+  background-color: #ffffff; /* Optional: Set a background color */
+}
+
+/* Optional: Style the scrollbar */
+.questions-container::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+}
+
+.questions-container::-webkit-scrollbar-track {
+  background: #f1f1f129; /* Background of the scrollbar track */
+}
+
+.questions-container::-webkit-scrollbar-thumb {
+  background: #fd2c02; /* Color of the scrollbar thumb */
+  border-radius: 4px; /* Rounded corners for the scrollbar thumb */
+}
+
+.questions-container::-webkit-scrollbar-thumb:hover {
+  background: #fd2c02; /* Color on hover */
+}
