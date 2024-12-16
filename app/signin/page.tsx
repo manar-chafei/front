@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Swal from "sweetalert2"; // Import SweetAlert2 for alerts
 
 const Signin = () => {
@@ -62,7 +62,7 @@ const Signin = () => {
         const role = profileData.role;
         console.log("User Role:", role);
 
-        // Redirect based on the role
+        // Redirection en fonction du rôle
         if (role === "candidate") {
           window.location.href = "/user";
         } else if (role === "recruiter") {
@@ -85,6 +85,14 @@ const Signin = () => {
       });
     }
   };
+
+  // Vérification de la présence du token au démarrage pour éviter l'accès à la page de connexion si l'utilisateur est déjà connecté
+  useEffect(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      window.location.href = "/user"; // Redirection si l'utilisateur est déjà connecté
+    }
+  }, []);
 
   return (
     <>

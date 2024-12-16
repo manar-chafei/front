@@ -1,0 +1,90 @@
+/* EditCV.module.css */
+
+.container {
+  background-color: #0000005f; /* Fond noir */
+  color: #fff; /* Texte blanc */
+  padding: 30px;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: auto;
+
+  backdrop-filter: blur(10px) !important;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ffa500; /* Orange */
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+input {
+  margin: 10px !important;
+  background-color: #44444484;
+  border-radius: 10px;
+  height: 50px;
+}
+
+button {
+  padding: 10px;
+  margin: 15px;
+  border-radius: 5px;
+  border: 1px solid #fff;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #333;
+}
+
+button {
+  margin: 15px !important;
+  background-color: #7b00ffd7; /* Orange */
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border-radius: 10px !important;
+}
+
+button:hover {
+  background-color: #ff5e00;
+  border-radius: 30px !important; /* Orange foncé */
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background-color: #444;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+li button {
+  margin: 15px;
+  background-color: #ff6347; /* Violet foncé */
+}
+
+li button:hover {
+  background-color: #ee4b34; /* Violet plus foncé */
+}
+
+.error {
+  color: #ff6347; /* Rouge pour les erreurs */
+  text-align: center;
+}

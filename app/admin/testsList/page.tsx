@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import "../Admin.css";
 import { useRouter } from "next/navigation";
 
-const Admin = () => {
+const TestList = () => {
   const [tests, setTests] = useState<any[]>([]); // Liste des tests
   const [error, setError] = useState<string | null>(null); // État pour les erreurs
   const [selectedTest, setSelectedTest] = useState<any | null>(null); // Test sélectionné
@@ -45,21 +45,53 @@ const Admin = () => {
     fetchTests();
   }, []);
 
-  // Fonction pour afficher/masquer les détails du test sélectionné
   const toggleTestDetails = (test: any) => {
-    // Si le test est déjà sélectionné, le retirer de la sélection (masquer les détails)
     if (selectedTest && selectedTest._id === test._id) {
-      setSelectedTest(null);
+      setSelectedTest(null); // Fermer les détails
     } else {
-      // Sinon, afficher les détails du test
-      setSelectedTest(test);
+      setSelectedTest(test); // Ouvrir les détails
     }
   };
 
-  // Fonction pour revenir à la page Admin (sans afficher les détails)
-  const navigateBackToAdmin = () => {
-    router.push("/admin"); // Retourner à la page admin
+  const handleEditTest = (testId: string) => {
+    router.push(`/admin/editTest/${testId}`); // Naviguer vers la page d'édition
   };
+
+  const handleDeleteTest = async (testId: string) => {
+    try {
+      const token = localStorage.getItem("authToken");
+
+      if (!token) {
+        setError("Token manquant, veuillez vous connecter.");
+        return;
+      }
+
+      const response = await fetch(
+        `http://localhost:5000/api/tests/deleteTest/${testId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Erreur ${response.status}: ${response.statusText}`);
+      }
+
+      setTests(tests.filter((test) => test._id !== testId)); // Mise à jour de la liste après suppression
+      setSelectedTest(null); // Réinitialiser l'état du test sélectionné
+    } catch (err: any) {
+      setError(`Erreur de suppression: ${err.message}`);
+    }
+  };
+
+  const navigateBackToAdmin = () => {
+    router.push("/admin");
+  };
+
   const navigateBackToAddTest = () => {
     router.push("/admin/addTest");
   };
@@ -69,28 +101,27 @@ const Admin = () => {
   }
 
   return (
-    <div className="admin-container">
-      <h1 className="title">Liste des Tests</h1>
-
-      {/* Affichage du bouton pour revenir à la page admin */}
-      <button className="navigate-button" onClick={navigateBackToAdmin}>
-        Retour à l'Admin
+    <div className="main-content">
+      <h1 className="dashboard-header">Liste des Tests</h1>
+      <button className="submit-button" onClick={navigateBackToAdmin}>
+        BACK TO DASHBOARD
       </button>
-      <button className="navigate-button" onClick={navigateBackToAddTest}>
-        Ajouter Test
+      <button className="submit-button" onClick={navigateBackToAddTest}>
+        ADD TEST
       </button>
-      {/* Affichage des tests */}
-      <div className="tests-list">
+      <div className="dashboard-cards">
         {tests.length > 0 ? (
           tests.map((test) => (
             <div
               key={test._id}
-              className="test-card"
-              onClick={() => toggleTestDetails(test)} // On clique pour afficher/masquer les détails
+              onClick={() => toggleTestDetails(test)}
+              className={`cardt ${
+                selectedTest && selectedTest._id === test._id
+                  ? "cardt-selected"
+                  : ""
+              }`}
             >
               <h3 className="test-title">{test.title}</h3>
-
-              {/* Affichage des détails du test si sélectionné */}
               {selectedTest && selectedTest._id === test._id && (
                 <div className="test-details">
                   <h2>{test.title}</h2>
@@ -101,7 +132,9 @@ const Admin = () => {
                         {question.propositions.map((prop: any) => (
                           <li
                             key={prop._id}
-                            style={{ color: prop.isCorrect ? "green" : "red" }}
+                            style={{
+                              color: prop.isCorrect ? "green" : "red",
+                            }}
                           >
                             {prop.text}
                           </li>
@@ -109,6 +142,27 @@ const Admin = () => {
                       </ul>
                     </div>
                   ))}
+
+                  <div className="test-actions">
+                    <button
+                      className="edit-button"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Empêche la fermeture des détails
+                        handleEditTest(test._id);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="delete-button"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Empêche la fermeture des détails
+                        handleDeleteTest(test._id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               )}
             </div>
@@ -121,4 +175,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default TestList;

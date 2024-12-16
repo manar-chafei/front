@@ -15,7 +15,10 @@ const Admin = () => {
   const navigateToTests = () => {
     router.push("/admin/testsList");
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    router.push("/signin");
+  };
   if (error) {
     return <div className="error-message">Erreur : {error}</div>;
   }
@@ -55,7 +58,7 @@ const Admin = () => {
             </a>
           </li>
           <li>
-            <a href="/login" className="menu-item logout">
+            <a onClick={handleLogout} className="menu-item logout">
               <i className="fa fa-sign-out-alt"></i> Log Out
             </a>
           </li>

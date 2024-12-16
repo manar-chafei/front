@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-const register = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
     fname: "",
     lname: "",
@@ -22,10 +22,21 @@ const register = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Vérifier si les mots de passe correspondent
     if (formData.password !== formData.confirmPassword) {
       setMessage("Passwords do not match");
       return;
     }
+
+    // Combiner le prénom et le nom pour le champ "name"
+    const name = `${formData.fname} ${formData.lname}`;
+
+    const userData = {
+      name, // Le champ 'name' dans le modèle backend
+      email: formData.email,
+      username: formData.username,
+      password: formData.password,
+    };
 
     try {
       const response = await fetch("http://localhost:5000/api/users/register", {
@@ -33,12 +44,13 @@ const register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(userData),
       });
 
       const result = await response.json();
       if (response.ok) {
         setMessage("Registration successful");
+        window.location.href = "/user";
       } else {
         setMessage(result.message || "Registration failed");
       }
@@ -99,29 +111,7 @@ const register = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
-              <div className="col color">
-                <label>Gender:</label>
-                <div>
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="male"
-                    checked={formData.gender === "male"}
-                    onChange={handleChange}
-                  />
-                  Male
-                  <input
-                    type="radio"
-                    name="gender"
-                    value="female"
-                    checked={formData.gender === "female"}
-                    onChange={handleChange}
-                  />
-                  Female
-                </div>
-              </div>
-            </div>
+
             <div className="row">
               <div className="col">
                 <div className="form-input">
@@ -192,4 +182,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Register;

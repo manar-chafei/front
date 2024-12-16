@@ -1,18 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUpload } from "react-icons/fa";
 import { useRouter } from "next/navigation";
-
 export default function Home() {
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState("");
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const router = useRouter(); // Hook pour la navigation
+
+  useEffect(() => {
+    // Vérification que localStorage est bien disponible
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        console.error("Token manquant!");
+        router.push("/signin"); // Rediriger vers la page de connexion si le token est absent
+      }
+    }
+  }, [router]);
+
   const gotocvForm = () => {
     router.push("/user/addCV");
   };
+
+  const handleLogout = () => {
+    // Supprimer le token du localStorage pour déconnecter l'utilisateur
+    localStorage.removeItem("authToken");
+
+    // Rediriger vers la page de connexion après déconnexion
+    router.push("/signin");
+  };
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile) {
@@ -34,12 +54,14 @@ export default function Home() {
       const response = await fetch("http://localhost:5000/api/cv/", {
         method: "POST",
         body: formData,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("authToken")}`, // Ajouter le token à la requête
+        },
       });
 
       if (response.ok) {
         setMessage("CV uploaded successfully!");
         setUploadSuccess(true);
-
         router.push("/tes");
       } else {
         setMessage("Failed to upload CV. Please try again.");
@@ -82,8 +104,11 @@ export default function Home() {
                             <li>
                               <a href="#">Contact</a>
                             </li>
+                            <li>
+                              <a href="user/cv">My Cv</a>
+                            </li>
                             <li className="button-header">
-                              <a href="#" className="btn btn3">
+                              <a onClick={handleLogout} className="btn btn3">
                                 Log Out
                               </a>
                             </li>
