@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import "../Admin.css";
 import { useRouter } from "next/navigation";
+import "../Admin.css"; // Assurez-vous que le fichier CSS est bien importé
 
 const TestList = () => {
   const [tests, setTests] = useState<any[]>([]); // Liste des tests
@@ -96,19 +96,21 @@ const TestList = () => {
     router.push("/admin/addTest");
   };
 
-  if (error) {
-    return <div>Erreur : {error}</div>;
-  }
-
   return (
     <div className="main-content">
-      <h1 className="dashboard-header">Liste des Tests</h1>
-      <button className="submit-button" onClick={navigateBackToAdmin}>
-        BACK TO DASHBOARD
+      <h1 className="dashboard-header">Tests List</h1>
+      <button className="btn btn2" onClick={navigateBackToAdmin}>
+        BACK
       </button>
-      <button className="submit-button" onClick={navigateBackToAddTest}>
+      <button
+        className="btn btn2"
+        style={{ marginLeft: "10px" }}
+        onClick={navigateBackToAddTest}
+      >
         ADD TEST
       </button>
+      {error && <div className="error-message">{error}</div>}{" "}
+      {/* Afficher l'erreur si présente */}
       <div className="dashboard-cards">
         {tests.length > 0 ? (
           tests.map((test) => (
@@ -142,10 +144,12 @@ const TestList = () => {
                       </ul>
                     </div>
                   ))}
-
                   <div className="test-actions">
                     <button
-                      className="edit-button"
+                      className="btn btn2"
+                      style={{
+                        width: "130px",
+                      }}
                       onClick={(e) => {
                         e.stopPropagation(); // Empêche la fermeture des détails
                         handleEditTest(test._id);
@@ -154,7 +158,10 @@ const TestList = () => {
                       Edit
                     </button>
                     <button
-                      className="delete-button"
+                      className="btn btn2"
+                      style={{
+                        marginTop: "20px",
+                      }}
                       onClick={(e) => {
                         e.stopPropagation(); // Empêche la fermeture des détails
                         handleDeleteTest(test._id);

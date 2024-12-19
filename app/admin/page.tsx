@@ -15,6 +15,9 @@ const Admin = () => {
   const navigateToTests = () => {
     router.push("/admin/testsList");
   };
+  const navigateToaddadmin = () => {
+    router.push("/admin/adminList");
+  };
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     router.push("/signin");
@@ -48,7 +51,7 @@ const Admin = () => {
             </a>
           </li>
           <li>
-            <a href="/addadmin" className="menu-item">
+            <a onClick={navigateToaddadmin} className="menu-item">
               <i className="fa fa-user-plus"></i> Add Admin
             </a>
           </li>
@@ -83,7 +86,7 @@ const Admin = () => {
             <h3>Manage Tests</h3>
             <p>View and manage all tests and exams.</p>
           </div>
-          <div className="card">
+          <div className="card" onClick={navigateToaddadmin}>
             <i className="fa fa-user-plus card-icon"></i>
             <h3>Add Admin</h3>
             <p>Add new administrators to the system.</p>

@@ -58,14 +58,14 @@ const Admin = () => {
     try {
       for (const question of newTest.questions) {
         if (question.propositions.length !== 3) {
-          alert("Chaque question doit avoir exactement 3 propositions.");
+          alert("Each question must have exactly 3 choices.");
           return;
         }
       }
 
       const token = localStorage.getItem("authToken");
       if (!token) {
-        alert("Token manquant, veuillez vous connecter.");
+        alert("Missing token, please login.");
         return;
       }
 
@@ -82,7 +82,7 @@ const Admin = () => {
         throw new Error(`Erreur ${response.status}: ${response.statusText}`);
       }
 
-      alert("Test ajouté avec succès !");
+      alert("Test added successfully!!");
       setNewTest({
         title: "",
         questions: Array.from({ length: 10 }, () => ({
@@ -95,7 +95,7 @@ const Admin = () => {
         })),
       });
     } catch (err: any) {
-      alert(`Erreur lors de l'ajout du test: ${err.message}`);
+      alert(`Error adding test: ${err.message}`);
     }
   };
 

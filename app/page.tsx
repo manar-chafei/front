@@ -89,8 +89,7 @@ const Page = () => {
                   <div className="col-xl-6 col-lg-7 col-md-12">
                     <div className="hero__caption">
                       <h1 data-animation="fadeInLeft" data-delay="0.2s">
-                        Online learning
-                        <br /> platform
+                        Online platform
                       </h1>
                       <p data-animation="fadeInLeft" data-delay="0.4s">
                         Build skills with courses, certificates, and degrees

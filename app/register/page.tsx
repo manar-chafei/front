@@ -72,9 +72,7 @@ const Register = () => {
         />
 
         {/* CSS files */}
-        <link rel="stylesheet" href="/assets/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/assets/css/animate.min.css" />
-        <link rel="stylesheet" href="/assets/css/style.css" />
+        
       </head>
       <div className="login-body">
         <form className="form" onSubmit={handleSubmit}>

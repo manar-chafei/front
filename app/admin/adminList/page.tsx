@@ -5,15 +5,20 @@ import "../Admin.css";
 import { useRouter } from "next/navigation";
 
 const Admin = () => {
-  const [users, setUsers] = useState([]); // Initialise avec un tableau vide
-  const [selectedUser, setSelectedUser] = useState<any | null>(null); // Utilisateur sélectionné
-  const [editMode, setEditMode] = useState(false); // Mode d'édition
-  const [error, setError] = useState<string | null>(null); // État pour les erreurs
+  const [users, setUsers] = useState([]); // Initialize with an empty array
+  const [selectedUser, setSelectedUser] = useState<any | null>(null); // Selected user
+  const [editMode, setEditMode] = useState(false); // Edit mode flag
+  const [error, setError] = useState<string | null>(null); // Error state
   const [updatedUser, setUpdatedUser] = useState({
     name: "",
     email: "",
     role: "",
-  }); // Informations modifiées
+  }); // Modified user information
+  const [showAddForm, setShowAddForm] = useState(false); // Show add admin form
+  const [newAdmin, setNewAdmin] = useState({
+    name: "",
+    email: "",
+  }); // New admin form data
   const router = useRouter();
 
   useEffect(() => {
@@ -42,7 +47,7 @@ const Admin = () => {
         }
 
         const data = await response.json();
-        setUsers(data);
+        setUsers(data.filter((user: any) => user.role === "admin"));
       } catch (err: any) {
         setError(`Erreur de récupération des utilisateurs: ${err.message}`);
       }
@@ -53,12 +58,12 @@ const Admin = () => {
 
   const handleSelectUser = (user: any) => {
     setSelectedUser(user);
-    setUpdatedUser({ name: user.name, email: user.email, role: user.role }); // Précharger les informations pour la modification
-    setEditMode(false); // Désactive le mode d'édition au début
+    setUpdatedUser({ name: user.name, email: user.email, role: user.role });
+    setEditMode(false);
   };
 
   const handleEdit = () => {
-    setEditMode(true); // Active le mode édition
+    setEditMode(true); // Enable edit mode
   };
 
   const handleDelete = async () => {
@@ -70,7 +75,7 @@ const Admin = () => {
       }
 
       const response = await fetch(
-        `http://localhost:5000/api/users/profiles/${selectedUser._id}`, // Suppression via l'ID
+        `http://localhost:5000/api/users/profiles/${selectedUser._id}`,
         {
           method: "DELETE",
           headers: {
@@ -81,8 +86,8 @@ const Admin = () => {
       );
 
       if (response.ok) {
-        setUsers(users.filter((user: any) => user._id !== selectedUser._id)); // Mise à jour de la liste après suppression
-        setSelectedUser(null); // Réinitialise l'utilisateur sélectionné
+        setUsers(users.filter((user: any) => user._id !== selectedUser._id));
+        setSelectedUser(null); // Deselect user after deletion
       } else {
         throw new Error("Erreur de suppression");
       }
@@ -107,7 +112,7 @@ const Admin = () => {
             Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(updatedUser), // Données modifiées
+          body: JSON.stringify(updatedUser),
         }
       );
 
@@ -117,9 +122,40 @@ const Admin = () => {
             user._id === selectedUser._id ? { ...user, ...updatedUser } : user
           )
         );
-        setEditMode(false); // Désactive le mode d'édition après sauvegarde
+        setEditMode(false);
       } else {
         throw new Error("Erreur de mise à jour");
+      }
+    } catch (err: any) {
+      setError(`Erreur: ${err.message}`);
+    }
+  };
+
+  const handleAddAdmin = async () => {
+    try {
+      const token = localStorage.getItem("authToken");
+      if (!token) {
+        setError("Token manquant, veuillez vous connecter.");
+        return;
+      }
+
+      // New admin details, role will automatically be set to "admin"
+      const response = await fetch("http://localhost:5000/api/users/profiles", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ ...newAdmin, role: "admin" }),
+      });
+
+      if (response.ok) {
+        const addedUser = await response.json();
+        setUsers([...users, addedUser]); // Add the new admin to the list
+        setShowAddForm(false); // Hide the form after adding
+        setNewAdmin({ name: "", email: "" }); // Reset the form
+      } else {
+        throw new Error("Erreur d'ajout de l'admin");
       }
     } catch (err: any) {
       setError(`Erreur: ${err.message}`);
@@ -136,14 +172,60 @@ const Admin = () => {
 
   return (
     <div className="admin-container">
-      <h1 className="dashboard-header">User List</h1>
+      <h1 className="test-title">Admin List</h1>
       <button
         className=" btn btn2"
-        onClick={navigateToListe}
         style={{ marginBottom: "10px" }}
+        onClick={navigateToListe}
       >
         Back
       </button>
+      <button
+        onClick={() => setShowAddForm(true)}
+        className=" btn btn2"
+        style={{ marginBottom: "10px", marginLeft: "10px" }}
+      >
+        Add Admin
+      </button>
+
+      {showAddForm && (
+        <div className="add-admin-form ">
+          <h3 className="">Add New Admin</h3>
+          <label style={{ color: "white" }}>Name: </label>
+          <input
+            style={{ borderRadius: "10px", height: "40px", margin: "10px" }}
+            type="text"
+            value={newAdmin.name}
+            onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })}
+          />
+          <label style={{ color: "white" }}>Email: </label>
+          <input
+            style={{ borderRadius: "10px", height: "40px", margin: "10px" }}
+            type="email"
+            value={newAdmin.email}
+            onChange={(e) =>
+              setNewAdmin({ ...newAdmin, email: e.target.value })
+            }
+          />
+          <div className="form-actions ">
+            <button
+              onClick={handleAddAdmin}
+              className="btn btn3"
+              style={{ marginLeft: "600px", marginTop: "-110px" }}
+            >
+              Save Admin
+            </button>
+            <button
+              onClick={() => setShowAddForm(false)}
+              className="btn btn3"
+              style={{ marginLeft: "50px", marginTop: "-110px" }}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
       {selectedUser && (
         <div className="user-details">
           <h3>User details</h3>
@@ -218,7 +300,7 @@ const Admin = () => {
             <div
               key={user._id}
               className="user-card"
-              onClick={() => handleSelectUser(user)} // Gère la sélection
+              onClick={() => handleSelectUser(user)}
             >
               <h3 className="user-name">{user.name}</h3>
               <p className="pcol">Email : {user.email}</p>
@@ -226,7 +308,7 @@ const Admin = () => {
             </div>
           ))
         ) : (
-          <p className="pcol">No users found.</p>
+          <p className="pcol">No admin users found.</p>
         )}
       </div>
     </div>

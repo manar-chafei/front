@@ -20,7 +20,7 @@ const EditCV = () => {
 
   // Vérifier que l'ID du CV est présent
   if (!cvId) {
-    return <p>CV ID introuvable.</p>;
+    return <p>CV ID not found.</p>;
   }
 
   // Récupérer les données du CV à modifier
@@ -88,7 +88,7 @@ const EditCV = () => {
       );
 
       if (response.status === 200) {
-        alert("CV modifié avec succès");
+        alert("CV successfully modified");
         router.push("/user/cv"); // Rediriger vers la liste des CVs
       }
     } catch (err) {
@@ -122,7 +122,7 @@ const EditCV = () => {
   };
 
   if (loading) {
-    return <p>Chargement du CV...</p>;
+    return <p>Loading CV...</p>;
   }
 
   if (error) {
@@ -130,66 +130,68 @@ const EditCV = () => {
   }
 
   return (
-    <div>
-      <h1>Modifier le CV</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Nom</label>
-          <input
-            type="text"
-            id="name"
-            value={cv.name}
-            onChange={(e) => setCv({ ...cv, name: e.target.value })}
-          />
-        </div>
+    <main>
+      <div className="container">
+        <h1>Edit CV</h1>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              id="name"
+              value={cv.name}
+              onChange={(e) => setCv({ ...cv, name: e.target.value })}
+            />
+          </div>
 
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            type="email"
-            id="email"
-            value={cv.email}
-            onChange={(e) => setCv({ ...cv, email: e.target.value })}
-          />
-        </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              id="email"
+              value={cv.email}
+              onChange={(e) => setCv({ ...cv, email: e.target.value })}
+            />
+          </div>
 
-        <div>
-          <label htmlFor="phone">Téléphone</label>
-          <input
-            type="tel"
-            id="phone"
-            value={cv.phone}
-            onChange={(e) => setCv({ ...cv, phone: e.target.value })}
-          />
-        </div>
+          <div>
+            <label htmlFor="phone">Phone Number</label>
+            <input
+              type="tel"
+              id="phone"
+              value={cv.phone}
+              onChange={(e) => setCv({ ...cv, phone: e.target.value })}
+            />
+          </div>
 
-        <div>
-          <label htmlFor="skills">Compétences</label>
-          <input
-            type="text"
-            id="skills"
-            value={skillsInput}
-            onChange={handleSkillChange}
-            placeholder="Ajoutez une compétence"
-          />
-          <button type="button" onClick={addSkill}>
-            Ajouter une compétence
-          </button>
-          <ul>
-            {cv.skills.map((skill, index) => (
-              <li key={index}>
-                {skill}{" "}
-                <button type="button" onClick={() => removeSkill(skill)}>
-                  Supprimer
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+          <div>
+            <label htmlFor="skills">Skills</label>
+            <input
+              type="text"
+              id="skills"
+              value={skillsInput}
+              onChange={handleSkillChange}
+              placeholder="Add Skill"
+            />
+            <button type="button" onClick={addSkill}>
+              Add Skill
+            </button>
+            <ul>
+              {cv.skills.map((skill, index) => (
+                <li key={index}>
+                  {skill}{" "}
+                  <button type="button" onClick={() => removeSkill(skill)}>
+                    Delete
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-        <button type="submit">Mettre à jour le CV</button>
-      </form>
-    </div>
+          <button type="submit">Edit CV</button>
+        </form>
+      </div>
+    </main>
   );
 };
 

@@ -3,11 +3,10 @@
 .container {
   background-color: #0000005f; /* Fond noir */
   color: #fff; /* Texte blanc */
-  padding: 30px;
+  padding: 15px;
   border-radius: 10px;
   max-width: 600px;
-  margin: auto;
-
+  margin: 1%;
   backdrop-filter: blur(10px) !important;
 }
 
@@ -31,7 +30,8 @@ label {
 }
 
 input {
-  margin: 10px !important;
+  margin-inline: 10px !important;
+  margin-block: 5px !important;
   background-color: #44444484;
   border-radius: 10px;
   height: 50px;
@@ -54,6 +54,7 @@ button {
   cursor: pointer;
   transition: background-color 0.3s;
   border-radius: 10px !important;
+  margin-bottom: 8px !important;
 }
 
 button:hover {
@@ -64,6 +65,7 @@ button:hover {
 ul {
   list-style-type: none;
   padding: 0;
+  color: #fff !important;
 }
 
 li {
@@ -73,6 +75,12 @@ li {
   border-radius: 5px;
   display: flex;
   justify-content: space-between;
+}
+h3 {
+  color: #fff !important;
+}
+p {
+  color: #fff !important;
 }
 
 li button {
@@ -87,4 +95,7 @@ li button:hover {
 .error {
   color: #ff6347; /* Rouge pour les erreurs */
   text-align: center;
+}
+.main {
+  justify-items: center;
 }

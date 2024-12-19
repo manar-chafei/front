@@ -110,11 +110,11 @@ const AddCVPage = () => {
 
   return (
     <div className="container">
-      <h1>Ajouter votre CV</h1>
+      <h1>Add Your CV</h1>
       {isAuthenticated ? (
         <form onSubmit={handleSubmit}>
           <div>
-            <label>Nom</label>
+            <label>Name</label>
             <input
               type="text"
               name="name"
@@ -134,7 +134,7 @@ const AddCVPage = () => {
             />
           </div>
           <div>
-            <label>Téléphone</label>
+            <label>Phone Number</label>
             <input
               type="text"
               name="phone"
@@ -144,7 +144,7 @@ const AddCVPage = () => {
             />
           </div>
           <div>
-            <label>Compétences</label>
+            <label>Skills</label>
             <input
               type="text"
               name="skills"
@@ -154,7 +154,7 @@ const AddCVPage = () => {
             />
           </div>
           <div>
-            <label>Expérience</label>
+            <label>Experience</label>
             {cvData.experience.map((exp, index) => (
               <div key={index}>
                 <input
@@ -162,7 +162,7 @@ const AddCVPage = () => {
                   name="company"
                   value={exp.company}
                   onChange={(e) => handleExperienceChange(index, e)}
-                  placeholder="Entreprise"
+                  placeholder="Company"
                   required
                 />
                 <input
@@ -170,7 +170,7 @@ const AddCVPage = () => {
                   name="role"
                   value={exp.role}
                   onChange={(e) => handleExperienceChange(index, e)}
-                  placeholder="Poste"
+                  placeholder="Role"
                   required
                 />
                 <input
@@ -178,17 +178,17 @@ const AddCVPage = () => {
                   name="duration"
                   value={exp.duration}
                   onChange={(e) => handleExperienceChange(index, e)}
-                  placeholder="Durée"
+                  placeholder="Duration"
                   required
                 />
               </div>
             ))}
             <button type="button" onClick={handleAddExperience}>
-              Ajouter une expérience
+              Add experience
             </button>
           </div>
           <div>
-            <label>Éducation</label>
+            <label>Education</label>
             {cvData.education.map((edu, index) => (
               <div key={index}>
                 <input
@@ -196,7 +196,7 @@ const AddCVPage = () => {
                   name="institution"
                   value={edu.institution}
                   onChange={(e) => handleEducationChange(index, e)}
-                  placeholder="Établissement"
+                  placeholder="Institution"
                   required
                 />
                 <input
@@ -204,7 +204,7 @@ const AddCVPage = () => {
                   name="degree"
                   value={edu.degree}
                   onChange={(e) => handleEducationChange(index, e)}
-                  placeholder="Diplôme"
+                  placeholder="Degree"
                   required
                 />
                 <input
@@ -212,22 +212,22 @@ const AddCVPage = () => {
                   name="year"
                   value={edu.year}
                   onChange={(e) => handleEducationChange(index, e)}
-                  placeholder="Année"
+                  placeholder="Year"
                   required
                 />
               </div>
             ))}
             <button type="button" onClick={handleAddEducation}>
-              Ajouter une formation
+              Add formation
             </button>
           </div>
 
           <button type="submit" disabled={loading}>
-            {loading ? "Chargement..." : "Soumettre"}
+            {loading ? "Loading..." : "Submit"}
           </button>
         </form>
       ) : (
-        <div>Vous devez être connecté pour ajouter un CV.</div>
+        <div>You must be logged in to add a CV.</div>
       )}
       {message && <div className="message">{message}</div>}
     </div>

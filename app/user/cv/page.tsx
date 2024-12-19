@@ -53,7 +53,7 @@ const CVList = () => {
 
   // Supprimer un CV
   const deleteCV = (cvId) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer ce CV ?")) {
+    if (window.confirm("Are you sure you want to delete this resume?")) {
       axios
         .delete(`http://localhost:5000/api/cv/${cvId}`)
         .then(() => {
@@ -83,28 +83,37 @@ const CVList = () => {
   }
 
   return (
-    <div>
-      <h1>Liste de vos CVs</h1>
-      <button onClick={() => router.push("/user/addCV")}>Ajouter un CV</button>
+    <div className="container">
+      <h1>List of your CVs</h1>
+      <button onClick={() => router.push("/user/addCV")} className="btn btn3">
+        Add CV
+      </button>
 
       {/* Affichage du CV sélectionné avec les boutons Modifier et Supprimer */}
       {selectedCV && (
         <div>
-          <h2>Détails du CV</h2>
+          <h2>CV details</h2>
           <p>
-            <strong>Nom:</strong> {selectedCV.name}
+            <strong>Name:</strong> {selectedCV.name}
           </p>
           <p>
             <strong>Email:</strong> {selectedCV.email}
           </p>
           <p>
-            <strong>Téléphone:</strong> {selectedCV.phone}
+            <strong>Phone Number:</strong> {selectedCV.phone}
           </p>
           <p>
-            <strong>Compétences:</strong> {selectedCV.skills.join(", ")}
+            <strong>Skills:</strong> {selectedCV.skills.join(", ")}
           </p>
-          <button onClick={() => editCV(selectedCV._id)}>Modifier</button>
-          <button onClick={() => deleteCV(selectedCV._id)}>Supprimer</button>
+          <button onClick={() => editCV(selectedCV._id)} className="btn btn3">
+            Edit
+          </button>
+          <button
+            onClick={() => deleteCV(selectedCV._id)}
+            className="btn btn3 "
+          >
+            Delete
+          </button>
         </div>
       )}
 
@@ -118,8 +127,8 @@ const CVList = () => {
           >
             <h3>{cv.name}</h3>
             <p>Email: {cv.email}</p>
-            <p>Téléphone: {cv.phone}</p>
-            <p>Compétences: {cv.skills.join(", ")}</p>
+            <p>Phone Number: {cv.phone}</p>
+            <p>Skills: {cv.skills.join(", ")}</p>
           </li>
         ))}
       </ul>
